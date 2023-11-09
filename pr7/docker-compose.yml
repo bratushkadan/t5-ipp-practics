@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  # reverse-proxy:
+  #   image: nginx:1.25.2-bookworm
+  #   ports:
+  #     - 80:80
+  #   volumes:
+  #     - ./etc/nginx/:/etc/nginx/
+  #   networks:
+  #     - app_network
+  #   depends_on:
+  #     pr8-cookie-server:
+  #       condition: service_started
+  mongo:
+    image: mongo:5.0.22-focal
+    ports:
+      - 27017:27017
+    networks:
+      - app_network
+    volumes:
+      - ipp_mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+volumes:
+  ipp_mongo:
+    external: true
+networks:
+  app_network:
+    attachable: true
+    driver: bridge

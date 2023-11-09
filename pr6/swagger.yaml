@@ -1,0 +1,228 @@
+openapi: 3.0.0
+info:
+  title: Book Library API
+  description: API for managing books, authors, and libraries
+  version: 1.0.0
+
+paths:
+  /authors:
+    get:
+      summary: Get all authors
+      tags:
+        - Authors
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
+    post:
+      summary: Create a new author
+      tags:
+        - Authors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewAuthor'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+
+  /authors/{authorId}:
+    get:
+      summary: Get an author by ID
+      tags:
+        - Authors
+      parameters:
+        - in: path
+          name: authorId
+          schema:
+            type: integer
+          required: true
+          description: ID of the author
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+        '404':
+          description: Author not found
+
+  /books:
+    get:
+      summary: Get all books
+      tags:
+        - Books
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      summary: Create a new book
+      tags:
+        - Books
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewBook'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+
+  /books/{bookId}:
+    get:
+      summary: Get a book by ID
+      tags:
+        - Books
+      parameters:
+        - in: path
+          name: bookId
+          schema:
+            type: integer
+          required: true
+          description: ID of the book
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Book not found
+
+  /libraries:
+    get:
+      summary: Get all libraries
+      tags:
+        - Libraries
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Library'
+    post:
+      summary: Create a new library
+      tags:
+        - Libraries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewLibrary'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Library'
+
+  /libraries/{libraryId}:
+    get:
+      summary: Get a library by ID
+      tags:
+        - Libraries
+      parameters:
+        - in: path
+          name: libraryId
+          schema:
+            type: integer
+          required: true
+          description: ID of the library
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Library'
+        '404':
+          description: Library not found
+
+components:
+  schemas:
+    Author:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    NewAuthor:
+      type: object
+      properties:
+        name:
+          type: string
+
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        authorId:
+          type: integer
+
+    NewBook:
+      type: object
+      properties:
+        title:
+          type: string
+        authorId:
+          type: integer
+
+    Library:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        books:
+          type: array
+          items:
+            $ref: '#/components/schemas/LibraryBook'
+          
+    LibraryBook:
+      type: object
+      properties:
+        id:
+          type: integer
+        count:
+          type: integer
+
+    NewLibrary:
+      type: object
+      properties:
+        name:
+          type: string

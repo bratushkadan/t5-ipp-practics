@@ -1,0 +1,17 @@
+type Query {
+  shoppingList(userId: ID!): [Item!]!
+}
+
+type Mutation {
+  addItem(text: String!, qty: Int!, completed: Boolean!, userId: ID!): Item!
+  updateItem(id: ID!, text: String, qty: Int, completed: Boolean, userId: ID!): Item!
+  deleteItem(id: ID!, userId: ID!): ID!
+}
+
+type Item {
+  id: ID!
+  text: String!
+  qty: Int!
+  completed: Boolean!
+  userId: ID!
+}
